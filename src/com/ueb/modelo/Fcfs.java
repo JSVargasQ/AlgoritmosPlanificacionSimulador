@@ -1,5 +1,6 @@
 package com.ueb.modelo;
 
+import java.util.ArrayList;
 
 public class Fcfs extends AlgoritmoPlanificacion
 {
@@ -35,7 +36,6 @@ public class Fcfs extends AlgoritmoPlanificacion
 		while( terminado == false )
 		{
 			int i = procesoAEjecutar();
-			System.out.println("Proceso a ejecutar: " + i);
 			
 			if( i != -1 ) 
 			{
@@ -52,12 +52,14 @@ public class Fcfs extends AlgoritmoPlanificacion
 				
 				this.totalProcesos.remove(i);
 				this.procesosEjecutados++;
+			} 
+			else
+			{
+				this.tiempoActual++;
 			}
 			
 			if( this.totalProcesos.size() == 0 )
 				terminado = true;
-			
-			this.tiempoActual++;
 		}
 		
 	}
@@ -71,7 +73,7 @@ public class Fcfs extends AlgoritmoPlanificacion
 		{
 			Proceso actual = this.totalProcesos.get(i);
 			
-			if( actual.getTiempoLlegada() < tiempoLlegada )
+			if( actual.getTiempoLlegada() < tiempoLlegada && actual.getTiempoLlegada() < this.tiempoActual  )
 			{
 				tiempoLlegada = actual.getTiempoLlegada();
 				posicionProceso = i;
@@ -90,6 +92,25 @@ public class Fcfs extends AlgoritmoPlanificacion
 			contador = contador + this.totalProcesos.get(i).getDuracionProceso();
 		
 		return contador;
+	}
+	
+	
+	public void cargarProcesos(String[][] pMatriz, int pCantProcesos)
+	{
+		this.totalProcesos = new ArrayList<Proceso>();
+		Proceso nuevo = null;
+		
+		for (int i = 0; i < pCantProcesos; i++) 
+		{
+			String nombreProceso = pMatriz[0][i];
+			int duracionProceso = Integer.valueOf( pMatriz[1][i] );
+			int llegadaProceso =  Integer.valueOf( pMatriz[2][i] );
+			
+			nuevo = new Proceso(nombreProceso, duracionProceso, llegadaProceso);
+			
+			this.totalProcesos.add(nuevo);
+		}
+		
 	}
 	
 	

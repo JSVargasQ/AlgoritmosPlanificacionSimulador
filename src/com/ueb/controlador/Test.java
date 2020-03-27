@@ -52,21 +52,6 @@ public class Test
 	public static void main(String[] args) 
 	{
 		
-		String[][] prueba = new String[3][2];
-		
-		for (int i = 0; i < 3; i++) 
-		{
-			for (int j = 0; j < 2; j++) 
-			{
-				System.out.print(prueba[i][j]);
-				
-				System.out.print("\t");
-			}
-			
-			System.out.println();
-		}
-		
-		
 		new Test();
 	}
 	

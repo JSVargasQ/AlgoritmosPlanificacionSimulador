@@ -27,6 +27,8 @@ public class VentanaPrincipal extends JFrame implements ActionListener
 	public static final String SJF = "SJF";
 	public static final String SRTF = "SRTF";
 	
+	public static final String BOTON_VOLVER = "Volver";
+	
 	
 	// ---------------------------------------------------------------------------------------------------
 	// ATRIBUTOS
@@ -77,7 +79,7 @@ public class VentanaPrincipal extends JFrame implements ActionListener
 	private void configurarVentanaPrincipal()
 	{
 		this.setDefaultCloseOperation(EXIT_ON_CLOSE);
-		this.setSize(700,600);
+		this.setSize(700,700);
 		this.setLocationRelativeTo(null);
 		
 		this.setVisible(true);
@@ -99,7 +101,7 @@ public class VentanaPrincipal extends JFrame implements ActionListener
 		this.lbSjf = new JLabel(SJF);
 		this.lbSrtf = new JLabel("SRTF");
 	
-		this.ventanaFcfs = new VentanaFCFS();
+		this.ventanaFcfs = new VentanaFCFS(this);
 		this.ventanaRoundRobin = new VentanaRoundRobin();
 		this.ventanaSjf = new VentanaSJF();
 		this.ventanaSrtf = new VentanaSRTF();
@@ -116,6 +118,8 @@ public class VentanaPrincipal extends JFrame implements ActionListener
 		this.btnRoundRobin.addActionListener(this);
 		this.btnSjf.addActionListener(this);
 		this.btnSrtf.addActionListener(this);
+		
+		this.mostrarVentanaPrincipal();
 	}
 	
 	private void agregarComponentes()
@@ -124,44 +128,44 @@ public class VentanaPrincipal extends JFrame implements ActionListener
 		
 		
 		
-		
 		this.add( this.btnFcfs );
-		this.btnFcfs.setBounds(100, 60, 150, 150);
+		this.btnFcfs.setBounds(100, 110, 150, 150);
 		
 		this.add( this.lbFcfs );
-		this.lbFcfs.setBounds(100, 230, 100, 20);
+		this.lbFcfs.setBounds(100, 280, 100, 20);
 		
 		
 
 		this.add( this.btnRoundRobin );
-		this.btnRoundRobin.setBounds(450, 60, 150, 150);
+		this.btnRoundRobin.setBounds(450, 110, 150, 150);
 		
 		this.add( this.lbRoundRobin );
-		this.lbRoundRobin.setBounds(450, 230, 100, 20);
+		this.lbRoundRobin.setBounds(450, 280, 100, 20);
 		
 		
 		
 		this.add( this.btnSjf );
-		this.btnSjf.setBounds(100, 320, 150, 150);
+		this.btnSjf.setBounds(100, 380, 150, 150);
 		
 		this.add( this.lbSjf );
-		this.lbSjf.setBounds(100, 490, 100, 20);
+		this.lbSjf.setBounds(100, 540, 100, 20);
 		
 
 		
 		this.add( this.btnSrtf );
-		this.btnSrtf.setBounds(450, 320, 150, 150);
+		this.btnSrtf.setBounds(450, 370, 150, 150);
 		
 		this.add( this.lbSrtf );
-		this.lbSrtf.setBounds(450, 490, 100, 20);
+		this.lbSrtf.setBounds(450, 540, 100, 20);
 	
 		
 	}
 	
 	
 	private void mostrarFcfs()
-	{
+	{	
 		this.setVisible(false);
+		this.ventanaFcfs = new VentanaFCFS(this);
 		this.ventanaFcfs.setVisible(true);
 	}
 	
