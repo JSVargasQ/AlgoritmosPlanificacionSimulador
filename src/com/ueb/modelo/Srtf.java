@@ -74,51 +74,24 @@ public class Srtf extends AlgoritmoPlanificacion
 				this.tiempoActual++;
 				
 				
-				ArrayList<Proceso> procesosGuardar = new ArrayList<Proceso>();
-				
 				for (int i = 0; i < this.totalProcesos.size(); i++) 
 				{
 					Proceso actual = this.totalProcesos.get(i);
 					
 					if( actual.getTiempoLlegada() < this.tiempoActual )
 					{
-//						actual.setId(this.procesosEjecutados);
-//						this.procesosEjecutados++;
-						this.totalProcesos.remove(i);
-
-						
-						procesosGuardar.add(actual);
-					}
-					
-				}
-				
-
-				if( procesosGuardar.size() > 0 )
-				{
-
-					while( procesosGuardar.size() > 0 )
-					{
-						int idAux = 0;
-						
-						for (int i = 0; i < procesosGuardar.size(); i++) 
-						{
-							if( procesosGuardar.get(i).getDuracionProceso() < procesosGuardar.get(idAux).getDuracionProceso() )
-							{
-								idAux = i;
-							}
-						}
-						
-						Proceso agreg = procesosGuardar.remove(idAux);
-						
-						agreg.setId(this.procesosEjecutados);
+						actual.setId(this.procesosEjecutados);
 						this.procesosEjecutados++;
-						this.matrizProcesos[ agreg.getId() ][0] = agreg.getNombreProceso();
-						procesosEspera.add( agreg );
+						this.totalProcesos.remove(i);
+						this.matrizProcesos[ actual.getId() ][0] = actual.getNombreProceso();
+						
+						this.procesosEspera.add(actual);
+						
 					}
 					
 				}
 				
-				
+
 			}
 			while( procesosTerminados != procesosTotales );
 			
