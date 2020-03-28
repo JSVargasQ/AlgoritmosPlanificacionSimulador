@@ -66,6 +66,7 @@ public class Fcfs extends AlgoritmoPlanificacion
 	
 	public int procesoAEjecutar()
 	{
+
 		int posicionProceso = -1;
 		int tiempoLlegada = Integer.MAX_VALUE; 
 		
