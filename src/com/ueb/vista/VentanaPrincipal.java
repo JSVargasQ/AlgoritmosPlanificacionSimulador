@@ -3,6 +3,7 @@ package com.ueb.vista;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
+import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
@@ -27,8 +28,6 @@ public class VentanaPrincipal extends JFrame implements ActionListener
 	public static final String SJF = "SJF";
 	public static final String SRTF = "SRTF";
 	
-	public static final String BOTON_VOLVER = "Volver";
-	
 	
 	// ---------------------------------------------------------------------------------------------------
 	// ATRIBUTOS
@@ -39,11 +38,7 @@ public class VentanaPrincipal extends JFrame implements ActionListener
 	private JButton btnSjf;
 	private JButton btnSrtf;
 	
-	private JLabel lbFcfs;
-	private JLabel lbRoundRobin;
-	private JLabel lbSjf;
-	private JLabel lbSrtf;
-	
+	private JLabel lbFondo;
 	
 	
 	// ---------------------------------------------------------------------------------------------------
@@ -92,19 +87,25 @@ public class VentanaPrincipal extends JFrame implements ActionListener
 	private void inicializarComponentes()
 	{
 		this.btnFcfs = new JButton();
-		this.btnRoundRobin = new JButton();
-		this.btnSjf = new JButton();
-		this.btnSrtf = new JButton();
+		this.btnFcfs.setIcon(new ImageIcon( "./source/botonFcfs.png" ));
 		
-		this.lbFcfs = new JLabel(FCFS);
-		this.lbRoundRobin = new JLabel(ROUND_ROBIN);
-		this.lbSjf = new JLabel(SJF);
-		this.lbSrtf = new JLabel("SRTF");
-	
+		this.btnRoundRobin = new JButton();
+		this.btnRoundRobin.setIcon(new ImageIcon( "./source/botonRoundRobin.png" ));
+		
+		this.btnSjf = new JButton();
+		this.btnSjf.setIcon(new ImageIcon( "./source/botonSjf.png" ));
+
+		
+		this.btnSrtf = new JButton();
+		this.btnSrtf.setIcon(new ImageIcon( "./source/botonSrtf.png" ));
+		
 		this.ventanaFcfs = new VentanaFCFS(this);
 		this.ventanaRoundRobin = new VentanaRoundRobin(this);
 		this.ventanaSjf = new VentanaSJF(this);
 		this.ventanaSrtf = new VentanaSRTF(this);
+		
+		this.lbFondo = new JLabel();
+		this.lbFondo.setIcon(new ImageIcon( "./source/fondoPrincipal.png" ));
 	}
 	
 	private void configurarComponentes()
@@ -129,36 +130,23 @@ public class VentanaPrincipal extends JFrame implements ActionListener
 		
 		
 		this.add( this.btnFcfs );
-		this.btnFcfs.setBounds(100, 110, 150, 150);
-		
-		this.add( this.lbFcfs );
-		this.lbFcfs.setBounds(100, 280, 100, 20);
-		
+		this.btnFcfs.setBounds(140, 140, 150, 150);
 		
 
 		this.add( this.btnRoundRobin );
-		this.btnRoundRobin.setBounds(450, 110, 150, 150);
-		
-		this.add( this.lbRoundRobin );
-		this.lbRoundRobin.setBounds(450, 280, 100, 20);
-		
+		this.btnRoundRobin.setBounds(400, 140, 150, 150);
 		
 		
 		this.add( this.btnSjf );
-		this.btnSjf.setBounds(100, 380, 150, 150);
+		this.btnSjf.setBounds(140, 360, 150, 150);
 		
-		this.add( this.lbSjf );
-		this.lbSjf.setBounds(100, 540, 100, 20);
-		
-
 		
 		this.add( this.btnSrtf );
-		this.btnSrtf.setBounds(450, 370, 150, 150);
+		this.btnSrtf.setBounds(400, 360, 150, 150);
 		
-		this.add( this.lbSrtf );
-		this.lbSrtf.setBounds(450, 540, 100, 20);
-	
 		
+		this.add(this.lbFondo);
+		this.lbFondo.setBounds(0, 0, 700, 700);
 	}
 	
 	

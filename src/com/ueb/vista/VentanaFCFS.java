@@ -4,6 +4,7 @@ import java.awt.Font;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
+import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
@@ -26,515 +27,526 @@ public class VentanaFCFS extends JFrame implements ActionListener
 	 * 
 	 */
 	private static final long serialVersionUID = 1L;
-	
+
 	// ---------------------------------------------------------------------------------------------------
-		// CONSTANTES
-		// ---------------------------------------------------------------------------------------------------
+	// CONSTANTES
+	// ---------------------------------------------------------------------------------------------------
 
-		public static final String TITULO = "Algoritmo FCFS (FIFO)";
+	public static final String TITULO = "Algoritmo FCFS (FIFO)";
 
-		public static final String BOTON_INGRESAR = "Ingresar";
-		public static final String BOTON_ALEATORIO = "Datos aleatorios";
-		public static final String BOTON_LIMPIAR = "Limpiar";
-		public static final String BOTON_CALCULAR = "Calcular";
-		
-		public static final int TAMAÑO_CELDAS = 35;
+	public static final String BOTON_INGRESAR = "Ingresar";
+	public static final String BOTON_ALEATORIO = "Datos aleatorios";
+	public static final String BOTON_LIMPIAR = "Limpiar";
+	public static final String BOTON_CALCULAR = "Calcular";
+
+	public static final int TAMAÑO_CELDAS = 35;
+
+
+	// ---------------------------------------------------------------------------------------------------
+	// ATRIBUTOS
+	// ---------------------------------------------------------------------------------------------------
+
+	private JButton btnIngresar;
+	private JButton btnAleatorio;
+	private JButton btnLimpiar;
+	private JButton btnCalcular;
+
+	private JButton btnVolver;
+
+	private JLabel lbCantProcesos;
+
+	private JSpinner spinnerProcesos;
+
+	private JTable tablaProcesos;
+	private JTable tablaAlgoritmo;
+
+	private JScrollPane scrollBarProcesos;
+	private JScrollPane scrollBarAlgoritmo;
+	
+	private JLabel lbFondo;
+
+
+
+	private Fcfs algoritmo;
+
+
+	private int cantUltIngresada;
+
+	//--------------------------------------
+	// CONSTRUCTOR
+	//--------------------------------------
+
+	public VentanaFCFS(VentanaPrincipal pVentanaP)
+	{
+		this.configurarVentanaFCFS();
+		this.inicializarComponentes();
+		this.configurarBotones(pVentanaP);
+		this.agregarComponentes();
+	}
+
+
+	//--------------------------------------
+	// METODOS
+	//--------------------------------------
+
+
+	private void configurarVentanaFCFS()
+	{
+		this.setDefaultCloseOperation(EXIT_ON_CLOSE);
+		this.setSize(700,700);
+		this.setLocationRelativeTo(null);
+
+		this.setVisible(true);
+		this.setResizable(false);
+		this.setTitle(TITULO);
+	}
+
+	private void inicializarComponentes()
+	{
+		this.btnIngresar = new JButton(BOTON_INGRESAR);
+		this.btnAleatorio = new JButton(BOTON_ALEATORIO);
+		this.btnLimpiar = new JButton(BOTON_LIMPIAR);
+		this.btnCalcular = new JButton(BOTON_CALCULAR);
+
+		this.lbCantProcesos = new JLabel("Cantidad de procesos");
+		this.spinnerProcesos = new JSpinner( new SpinnerNumberModel(2, 2, 100, 1) );
 
 		
-		// ---------------------------------------------------------------------------------------------------
-		// ATRIBUTOS
-		// ---------------------------------------------------------------------------------------------------
-		
-		private JButton btnIngresar;
-		private JButton btnAleatorio;
-		private JButton btnLimpiar;
-		private JButton btnCalcular;
-		
-		private JButton btnVolver;
-		
-		private JLabel lbCantProcesos;
-		
-		private JSpinner spinnerProcesos;
-		
-		private JTable tablaProcesos;
-		private JTable tablaAlgoritmo;
-		
-		private JScrollPane scrollBarProcesos;
-		private JScrollPane scrollBarAlgoritmo;
+		this.btnVolver = new JButton();
+		this.btnVolver.setIcon(new ImageIcon( "./source/botonVolver.png" ));
 		
 		
-		
-		private Fcfs algoritmo;
-		
-		
-		private int cantUltIngresada;
-		
-		//--------------------------------------
-		// CONSTRUCTOR
-		//--------------------------------------
-		
-		public VentanaFCFS(VentanaPrincipal pVentanaP)
-		{
-			this.configurarVentanaFCFS();
-			this.inicializarComponentes();
-			this.configurarBotones(pVentanaP);
-			this.agregarComponentes();
-		}
-		
-		
-		//--------------------------------------
-		// METODOS
-		//--------------------------------------
-		
-				
-		private void configurarVentanaFCFS()
-		{
-			this.setDefaultCloseOperation(EXIT_ON_CLOSE);
-			this.setSize(700,700);
-			this.setLocationRelativeTo(null);
-			
-			this.setVisible(true);
-			this.setResizable(false);
-			this.setTitle(TITULO);
-		}
-		
-		private void inicializarComponentes()
-		{
-			this.btnIngresar = new JButton(BOTON_INGRESAR);
-			this.btnAleatorio = new JButton(BOTON_ALEATORIO);
-			this.btnLimpiar = new JButton(BOTON_LIMPIAR);
-			this.btnCalcular = new JButton(BOTON_CALCULAR);
-			
-			this.btnVolver = new JButton(VentanaPrincipal.BOTON_VOLVER);
-			
-			
-			this.lbCantProcesos = new JLabel("Cantidad de procesos");
-			this.spinnerProcesos = new JSpinner( new SpinnerNumberModel(2, 2, 100, 1) );
-		}
-		
-		private void configurarBotones(VentanaPrincipal pVentanaP)
-		{
-			this.btnIngresar.setActionCommand(BOTON_INGRESAR);
-			this.btnAleatorio.setActionCommand(BOTON_ALEATORIO);
-			this.btnLimpiar.setActionCommand(BOTON_LIMPIAR);
-			this.btnCalcular.setActionCommand(BOTON_CALCULAR);
-			
-			this.btnIngresar.addActionListener(this);
-			this.btnAleatorio.addActionListener(this);
-			this.btnLimpiar.addActionListener(this);
-			this.btnCalcular.addActionListener(this);
-		
-			this.btnVolver.addActionListener(pVentanaP);
-		}
-		
-		private void agregarComponentes()
-		{
-			this.setLayout(null);
-			
-			this.lbCantProcesos.setFont(new Font("Serif", Font.PLAIN, 15));
-			this.add( this.lbCantProcesos );
-			this.lbCantProcesos.setBounds(130, 90, 150, 50);
-			
-			this.add( this.spinnerProcesos );
-			this.spinnerProcesos.setBounds(160, 140, 55, 30);
-			
-			
-			this.add( this.btnIngresar );
-			this.btnIngresar.setBounds(60, 200, 130, 40);
-			
-			this.add( this.btnAleatorio );
-			this.btnAleatorio.setBounds(210, 200, 130, 40);
+		this.lbFondo = new JLabel();
+		this.lbFondo.setIcon(new ImageIcon( "./source/fondoGeneral.png" ));
+	}
 
-			this.add( this.btnLimpiar );
-			this.btnLimpiar.setBounds(60, 260, 130, 40);
+	private void configurarBotones(VentanaPrincipal pVentanaP)
+	{
+		this.btnIngresar.setActionCommand(BOTON_INGRESAR);
+		this.btnAleatorio.setActionCommand(BOTON_ALEATORIO);
+		this.btnLimpiar.setActionCommand(BOTON_LIMPIAR);
+		this.btnCalcular.setActionCommand(BOTON_CALCULAR);
 
-			this.add( this.btnCalcular );
-			this.btnCalcular.setBounds(210, 260, 130, 40);
+		this.btnIngresar.addActionListener(this);
+		this.btnAleatorio.addActionListener(this);
+		this.btnLimpiar.addActionListener(this);
+		this.btnCalcular.addActionListener(this);
 
-			
-			this.add( this.btnVolver );
-			this.btnVolver.setBounds(20, 20, 100, 30);
-			
-			//this.btnVolver.setBounds(x, y, width, height);
-			
-			
-			this.tablaProcesos = this.configurarPorDefectoTablaProcesos();
-			
-			this.scrollBarProcesos = new JScrollPane(this.tablaProcesos, JScrollPane.VERTICAL_SCROLLBAR_AS_NEEDED, JScrollPane.HORIZONTAL_SCROLLBAR_AS_NEEDED);
-			this.scrollBarProcesos.setBounds(380, 60, 264, 240);
-			this.add(this.scrollBarProcesos);
-			
-			
-			this.tablaAlgoritmo = new JTable();
-			
-			this.scrollBarAlgoritmo = new JScrollPane(this.tablaAlgoritmo, JScrollPane.VERTICAL_SCROLLBAR_AS_NEEDED, JScrollPane.HORIZONTAL_SCROLLBAR_AS_NEEDED);
-			this.scrollBarAlgoritmo.setBounds(60, 350, 584, 270);
-			this.add(this.scrollBarAlgoritmo);
-		}
-		
-		
-		
-		@Override
-		public void actionPerformed(ActionEvent e) 
-		{
-			String comando = e.getActionCommand();
-			
-			if( comando.equals( BOTON_INGRESAR ) )
-				this.ingresarCantidadProcesos();
+		this.btnVolver.addActionListener(pVentanaP);
+	}
 
-			else if( comando.equals( BOTON_ALEATORIO ) )
-				this.ingresarDatosAleatorios();
-			
-			else if( comando.equals( BOTON_LIMPIAR ) )
-				this.limpiarProcesos();
-			
-			else if( comando.equals( BOTON_CALCULAR ) )
-				this.ejecutarAlgoritmo();
-				
-			
-			
-			
-		}
-		
-		
-		private void ejecutarAlgoritmo()
-		{
-			this.algoritmo = new Fcfs();
-			
-			String[][] matrizInterfaz = this.obtenerMatrizProcesos();
-			this.algoritmo.cargarProcesos( matrizInterfaz , this.cantUltIngresada);
-			
-			this.algoritmo.ejecutar();
-			
-			String[][] matrizResultado = this.algoritmo.getMatrizProcesos();
-			this.mostrarMatrizAlgoritmo(matrizResultado);
-			
-		}
-		
-		
-		private void ingresarCantidadProcesos()
-		{
-			this.cantUltIngresada = (int) this.spinnerProcesos.getValue();
-		
-			this.remove(this.scrollBarProcesos);
-			
-			this.tablaProcesos = this.configurarTablaProcesos(this.cantUltIngresada);
-			
-			this.scrollBarProcesos = new JScrollPane(this.tablaProcesos, JScrollPane.VERTICAL_SCROLLBAR_AS_NEEDED, JScrollPane.HORIZONTAL_SCROLLBAR_AS_NEEDED);
-			this.scrollBarProcesos.setBounds(380, 60, 264, 240);
-			this.add(this.scrollBarProcesos);
-		}
-		
-		
-		
-		private JTable configurarPorDefectoTablaProcesos( )
-		{
-			DefaultTableModel tablaModelo = new DefaultTableModel();
-			
-			String[] columnaActual = new String[0];
-			tablaModelo.addColumn("Nombre", columnaActual);
-			
-			columnaActual = new String[0];
-			tablaModelo.addColumn("Duración", columnaActual);
-			
-			columnaActual = new String[0];
-			tablaModelo.addColumn("Tiempo llegada", columnaActual);
-			
-			
-//			for (int i = 1; i < cantProcesos; i++) 
-//			{
-//				columnaActual = new String[4];
-//				
-//				for(int j = 1; j < cantProcesos; j++) 
-//				{
-//					columnaActual[j] = "";
-//				}
-//				
-//				tablaModelo.addColumn(String.valueOf(i), columnaActual);
-//			}
-			
-			JTable table = new JTable(tablaModelo);
-			table.setAutoResizeMode(JTable.AUTO_RESIZE_OFF);
-			table.getTableHeader().setReorderingAllowed(false) ;
-			
-			table.setRowHeight(40);
+	private void agregarComponentes()
+	{
+		this.setLayout(null);
 
-			DefaultTableCellRenderer defCellRender = new DefaultTableCellRenderer();
-			
-			table.getColumn( table.getColumnName(0) ).setMinWidth(81);	
-			table.getColumn( table.getColumnName(0) ).setMaxWidth(81);
-			defCellRender.setHorizontalAlignment( SwingConstants.CENTER );
-			table.getColumn( table.getColumnName(0) ).setCellRenderer(defCellRender);
-			
-			table.getColumn( table.getColumnName(1) ).setMinWidth(70);	
-			table.getColumn( table.getColumnName(1) ).setMaxWidth(70);
-			defCellRender.setHorizontalAlignment( SwingConstants.CENTER );
-			table.getColumn( table.getColumnName(1) ).setCellRenderer(defCellRender);
-			
-			table.getColumn( table.getColumnName(2) ).setMinWidth(109);	
-			table.getColumn( table.getColumnName(2) ).setMaxWidth(109);
-			defCellRender.setHorizontalAlignment( SwingConstants.CENTER );
-			table.getColumn( table.getColumnName(2) ).setCellRenderer(defCellRender);
-			
-//			for (int i = 0; i < 3; i++) 
-//			{
-//				table.getColumn( table.getColumnName(i) ).setMinWidth(TAMAÑO_CELDAS);			
-//				table.getColumn( table.getColumnName(i) ).setMaxWidth(TAMAÑO_CELDAS);
-//				
-//				defCellRender.setHorizontalAlignment( SwingConstants.CENTER );
-//				table.getColumn( table.getColumnName(i) ).setCellRenderer(defCellRender);
-//			}
-			
-			
-			return table;	
-		}
+		this.lbCantProcesos.setFont(new Font("Serif", Font.PLAIN, 15));
+		this.add( this.lbCantProcesos );
+		this.lbCantProcesos.setBounds(130, 90, 150, 50);
+
+		this.add( this.spinnerProcesos );
+		this.spinnerProcesos.setBounds(160, 140, 55, 30);
+
+
+		this.add( this.btnIngresar );
+		this.btnIngresar.setBounds(60, 200, 130, 40);
+
+		this.add( this.btnAleatorio );
+		this.btnAleatorio.setBounds(210, 200, 130, 40);
+
+		this.add( this.btnLimpiar );
+		this.btnLimpiar.setBounds(60, 260, 130, 40);
+
+		this.add( this.btnCalcular );
+		this.btnCalcular.setBounds(210, 260, 130, 40);
+
+
+		this.add( this.btnVolver );
+		this.btnVolver.setBounds(20, 20, 100, 30);
+
+		//this.btnVolver.setBounds(x, y, width, height);
+
+
+		this.tablaProcesos = this.configurarPorDefectoTablaProcesos();
+
+		this.scrollBarProcesos = new JScrollPane(this.tablaProcesos, JScrollPane.VERTICAL_SCROLLBAR_AS_NEEDED, JScrollPane.HORIZONTAL_SCROLLBAR_AS_NEEDED);
+		this.scrollBarProcesos.setBounds(380, 60, 264, 240);
+		this.add(this.scrollBarProcesos);
+
+
+		this.tablaAlgoritmo = new JTable();
+
+		this.scrollBarAlgoritmo = new JScrollPane(this.tablaAlgoritmo, JScrollPane.VERTICAL_SCROLLBAR_AS_NEEDED, JScrollPane.HORIZONTAL_SCROLLBAR_AS_NEEDED);
+		this.scrollBarAlgoritmo.setBounds(60, 350, 584, 270);
+		this.add(this.scrollBarAlgoritmo);
 		
 		
-		
-		private JTable configurarTablaProcesos( int pCantProcesos )
+		this.add(this.lbFondo);
+		this.lbFondo.setBounds(0, 0, 700, 700);
+	}
+
+
+
+	@Override
+	public void actionPerformed(ActionEvent e) 
+	{
+		String comando = e.getActionCommand();
+
+		if( comando.equals( BOTON_INGRESAR ) )
+			this.ingresarCantidadProcesos();
+
+		else if( comando.equals( BOTON_ALEATORIO ) )
+			this.ingresarDatosAleatorios();
+
+		else if( comando.equals( BOTON_LIMPIAR ) )
+			this.limpiarProcesos();
+
+		else if( comando.equals( BOTON_CALCULAR ) )
+			this.ejecutarAlgoritmo();
+
+
+
+
+	}
+
+
+	private void ejecutarAlgoritmo()
+	{
+		this.algoritmo = new Fcfs();
+
+		String[][] matrizInterfaz = this.obtenerMatrizProcesos();
+		this.algoritmo.cargarProcesos( matrizInterfaz , this.cantUltIngresada);
+
+		this.algoritmo.ejecutar();
+
+		String[][] matrizResultado = this.algoritmo.getMatrizProcesos();
+		this.mostrarMatrizAlgoritmo(matrizResultado);
+
+	}
+
+
+	private void ingresarCantidadProcesos()
+	{
+		this.cantUltIngresada = (int) this.spinnerProcesos.getValue();
+
+		this.remove(this.scrollBarProcesos);
+
+		this.tablaProcesos = this.configurarTablaProcesos(this.cantUltIngresada);
+
+		this.scrollBarProcesos = new JScrollPane(this.tablaProcesos, JScrollPane.VERTICAL_SCROLLBAR_AS_NEEDED, JScrollPane.HORIZONTAL_SCROLLBAR_AS_NEEDED);
+		this.scrollBarProcesos.setBounds(380, 60, 264, 240);
+		this.add(this.scrollBarProcesos);
+	}
+
+
+
+	private JTable configurarPorDefectoTablaProcesos( )
+	{
+		DefaultTableModel tablaModelo = new DefaultTableModel();
+
+		String[] columnaActual = new String[0];
+		tablaModelo.addColumn("Nombre", columnaActual);
+
+		columnaActual = new String[0];
+		tablaModelo.addColumn("Duración", columnaActual);
+
+		columnaActual = new String[0];
+		tablaModelo.addColumn("Tiempo llegada", columnaActual);
+
+
+		//			for (int i = 1; i < cantProcesos; i++) 
+		//			{
+		//				columnaActual = new String[4];
+		//				
+		//				for(int j = 1; j < cantProcesos; j++) 
+		//				{
+		//					columnaActual[j] = "";
+		//				}
+		//				
+		//				tablaModelo.addColumn(String.valueOf(i), columnaActual);
+		//			}
+
+		JTable table = new JTable(tablaModelo);
+		table.setAutoResizeMode(JTable.AUTO_RESIZE_OFF);
+		table.getTableHeader().setReorderingAllowed(false) ;
+
+		table.setRowHeight(40);
+
+		DefaultTableCellRenderer defCellRender = new DefaultTableCellRenderer();
+
+		table.getColumn( table.getColumnName(0) ).setMinWidth(81);	
+		table.getColumn( table.getColumnName(0) ).setMaxWidth(81);
+		defCellRender.setHorizontalAlignment( SwingConstants.CENTER );
+		table.getColumn( table.getColumnName(0) ).setCellRenderer(defCellRender);
+
+		table.getColumn( table.getColumnName(1) ).setMinWidth(70);	
+		table.getColumn( table.getColumnName(1) ).setMaxWidth(70);
+		defCellRender.setHorizontalAlignment( SwingConstants.CENTER );
+		table.getColumn( table.getColumnName(1) ).setCellRenderer(defCellRender);
+
+		table.getColumn( table.getColumnName(2) ).setMinWidth(109);	
+		table.getColumn( table.getColumnName(2) ).setMaxWidth(109);
+		defCellRender.setHorizontalAlignment( SwingConstants.CENTER );
+		table.getColumn( table.getColumnName(2) ).setCellRenderer(defCellRender);
+
+		//			for (int i = 0; i < 3; i++) 
+		//			{
+		//				table.getColumn( table.getColumnName(i) ).setMinWidth(TAMAÑO_CELDAS);			
+		//				table.getColumn( table.getColumnName(i) ).setMaxWidth(TAMAÑO_CELDAS);
+		//				
+		//				defCellRender.setHorizontalAlignment( SwingConstants.CENTER );
+		//				table.getColumn( table.getColumnName(i) ).setCellRenderer(defCellRender);
+		//			}
+
+
+		return table;	
+	}
+
+
+
+	private JTable configurarTablaProcesos( int pCantProcesos )
+	{
+		DefaultTableModel tablaModelo = new DefaultTableModel();
+
+		String[] columnaActual = null;
+
+		for (int i = 0; i < 3; i++) 
 		{
-			DefaultTableModel tablaModelo = new DefaultTableModel();
-			
-			String[] columnaActual = null;
-			
-			for (int i = 0; i < 3; i++) 
+			columnaActual = new String[pCantProcesos];
+
+			for(int j = 0; j < pCantProcesos; j++) 
 			{
-				columnaActual = new String[pCantProcesos];
-				
-				for(int j = 0; j < pCantProcesos; j++) 
-				{
-					columnaActual[j] = "";
-				}
-				
-				String nombreColumna = "";
-				
-				switch( i ) 
-				{
-					case 0:
-						nombreColumna = "Nombre";
-					break;
-					case 1:
-						nombreColumna = "Duración";
-						break;
-					case 2:
-						nombreColumna = "Tiempo llegada";
-						break;
-				}
-				
-				tablaModelo.addColumn(nombreColumna, columnaActual);
+				columnaActual[j] = "";
 			}
-			
-			JTable table = new JTable(tablaModelo);
-			table.setAutoResizeMode(JTable.AUTO_RESIZE_OFF);
-			table.getTableHeader().setReorderingAllowed(false) ;
-			
-			table.setRowHeight(40);
 
-			DefaultTableCellRenderer defCellRender = new DefaultTableCellRenderer();
-			
-			table.getColumn( table.getColumnName(0) ).setMinWidth(81);	
-			table.getColumn( table.getColumnName(0) ).setMaxWidth(81);
-			defCellRender.setHorizontalAlignment( SwingConstants.CENTER );
-			table.getColumn( table.getColumnName(0) ).setCellRenderer(defCellRender);
-			
-			table.getColumn( table.getColumnName(1) ).setMinWidth(70);	
-			table.getColumn( table.getColumnName(1) ).setMaxWidth(70);
-			defCellRender.setHorizontalAlignment( SwingConstants.CENTER );
-			table.getColumn( table.getColumnName(1) ).setCellRenderer(defCellRender);
-			
-			table.getColumn( table.getColumnName(2) ).setMinWidth(110);	
-			table.getColumn( table.getColumnName(2) ).setMaxWidth(110);
-			defCellRender.setHorizontalAlignment( SwingConstants.CENTER );
-			table.getColumn( table.getColumnName(2) ).setCellRenderer(defCellRender);
-			
-			return table;	
-		}
-		
-		private void limpiarProcesos()
-		{
-			this.remove(this.scrollBarProcesos);
-			
-			this.tablaProcesos = this.configurarTablaProcesos(this.cantUltIngresada);
-			
-			this.scrollBarProcesos = new JScrollPane(this.tablaProcesos, JScrollPane.VERTICAL_SCROLLBAR_AS_NEEDED, JScrollPane.HORIZONTAL_SCROLLBAR_AS_NEEDED);
-			this.scrollBarProcesos.setBounds(380, 60, 264, 240);
-			this.add(this.scrollBarProcesos);
-		}
-		
-		
-		private void ingresarDatosAleatorios()
-		{
-			
-			int rangoMinimo = Integer.parseInt( this.pedirDatoRango("Ingresar el valor mínimo de tiempo de duración de los procesos") );
-			int rangoMaximo = Integer.parseInt( this.pedirDatoRango("Ingrese el valor máximo de tiempo de duración de los procesos") );
+			String nombreColumna = "";
 
-			int demoraMaxima = Integer.parseInt( this.pedirDatoRango("Ingrese el valor máximo de tiempo de llegada de los procesos") );
-			
-			this.remove(this.scrollBarProcesos);
-			
-			DefaultTableModel tablaModelo = new DefaultTableModel();
-			
-			String[] columnaActual = null;
-			
-			for (int i = 0; i < 3; i++) 
+			switch( i ) 
 			{
-				columnaActual = new String[this.cantUltIngresada];
-				
-				
-				if( i == 0 )
-				{
-					int contador = 1;
-					
-					for (int j = 0; j < columnaActual.length; j++, contador++) 
-						columnaActual[j] = "Proceso " + contador;
-
-				}
-				else if( i == 1 )
-				{
-					for (int j = 0; j < columnaActual.length; j++) 
-					{
-						columnaActual[j] = String.valueOf( this.generarNumeroAleatorio(rangoMinimo, rangoMaximo) );
-					}
-				}
-				else if( i == 2 )
-				{
-					for (int j = 0; j < columnaActual.length; j++) 
-					{
-						columnaActual[j] = String.valueOf( this.generarNumeroAleatorio(0, demoraMaxima) );
-					}
-				}
-				
-				
-				String nombreColumna = "";
-				
-				switch( i ) 
-				{
-					case 0:
-						nombreColumna = "Nombre";
-					break;
-					case 1:
-						nombreColumna = "Duración";
-						break;
-					case 2:
-						nombreColumna = "Tiempo llegada";
-						break;
-				}
-				
-				tablaModelo.addColumn(nombreColumna, columnaActual);
+			case 0:
+				nombreColumna = "Nombre";
+				break;
+			case 1:
+				nombreColumna = "Duración";
+				break;
+			case 2:
+				nombreColumna = "Tiempo llegada";
+				break;
 			}
-			
-			JTable table = new JTable(tablaModelo);
-			table.setAutoResizeMode(JTable.AUTO_RESIZE_OFF);
-			table.getTableHeader().setReorderingAllowed(false) ;
-			
-			table.setRowHeight(40);
 
-			DefaultTableCellRenderer defCellRender = new DefaultTableCellRenderer();
-			
-			table.getColumn( table.getColumnName(0) ).setMinWidth(81);	
-			table.getColumn( table.getColumnName(0) ).setMaxWidth(81);
-			defCellRender.setHorizontalAlignment( SwingConstants.CENTER );
-			table.getColumn( table.getColumnName(0) ).setCellRenderer(defCellRender);
-			
-			table.getColumn( table.getColumnName(1) ).setMinWidth(70);	
-			table.getColumn( table.getColumnName(1) ).setMaxWidth(70);
-			defCellRender.setHorizontalAlignment( SwingConstants.CENTER );
-			table.getColumn( table.getColumnName(1) ).setCellRenderer(defCellRender);
-			
-			table.getColumn( table.getColumnName(2) ).setMinWidth(110);	
-			table.getColumn( table.getColumnName(2) ).setMaxWidth(110);
-			defCellRender.setHorizontalAlignment( SwingConstants.CENTER );
-			table.getColumn( table.getColumnName(2) ).setCellRenderer(defCellRender);
-			
-			
-			this.tablaProcesos = table;
-			this.scrollBarProcesos = new JScrollPane(this.tablaProcesos, JScrollPane.VERTICAL_SCROLLBAR_AS_NEEDED, JScrollPane.HORIZONTAL_SCROLLBAR_AS_NEEDED);
-			this.scrollBarProcesos.setBounds(380, 60, 264, 240);
-			this.add(this.scrollBarProcesos);
+			tablaModelo.addColumn(nombreColumna, columnaActual);
 		}
-		
-		
-		
-		private String pedirDatoRango(String pMensaje)
+
+		JTable table = new JTable(tablaModelo);
+		table.setAutoResizeMode(JTable.AUTO_RESIZE_OFF);
+		table.getTableHeader().setReorderingAllowed(false) ;
+
+		table.setRowHeight(40);
+
+		DefaultTableCellRenderer defCellRender = new DefaultTableCellRenderer();
+
+		table.getColumn( table.getColumnName(0) ).setMinWidth(81);	
+		table.getColumn( table.getColumnName(0) ).setMaxWidth(81);
+		defCellRender.setHorizontalAlignment( SwingConstants.CENTER );
+		table.getColumn( table.getColumnName(0) ).setCellRenderer(defCellRender);
+
+		table.getColumn( table.getColumnName(1) ).setMinWidth(70);	
+		table.getColumn( table.getColumnName(1) ).setMaxWidth(70);
+		defCellRender.setHorizontalAlignment( SwingConstants.CENTER );
+		table.getColumn( table.getColumnName(1) ).setCellRenderer(defCellRender);
+
+		table.getColumn( table.getColumnName(2) ).setMinWidth(110);	
+		table.getColumn( table.getColumnName(2) ).setMaxWidth(110);
+		defCellRender.setHorizontalAlignment( SwingConstants.CENTER );
+		table.getColumn( table.getColumnName(2) ).setCellRenderer(defCellRender);
+
+		return table;	
+	}
+
+	private void limpiarProcesos()
+	{
+		this.remove(this.scrollBarProcesos);
+
+		this.tablaProcesos = this.configurarTablaProcesos(this.cantUltIngresada);
+
+		this.scrollBarProcesos = new JScrollPane(this.tablaProcesos, JScrollPane.VERTICAL_SCROLLBAR_AS_NEEDED, JScrollPane.HORIZONTAL_SCROLLBAR_AS_NEEDED);
+		this.scrollBarProcesos.setBounds(380, 60, 264, 240);
+		this.add(this.scrollBarProcesos);
+	}
+
+
+	private void ingresarDatosAleatorios()
+	{
+
+		int rangoMinimo = Integer.parseInt( this.pedirDatoRango("Ingresar el valor mínimo de tiempo de duración de los procesos") );
+		int rangoMaximo = Integer.parseInt( this.pedirDatoRango("Ingrese el valor máximo de tiempo de duración de los procesos") );
+
+		int demoraMaxima = Integer.parseInt( this.pedirDatoRango("Ingrese el valor máximo de tiempo de llegada de los procesos") );
+
+		this.remove(this.scrollBarProcesos);
+
+		DefaultTableModel tablaModelo = new DefaultTableModel();
+
+		String[] columnaActual = null;
+
+		for (int i = 0; i < 3; i++) 
 		{
-			return JOptionPane.showInputDialog(this, pMensaje);
-		}
-		
-		
-		private int generarNumeroAleatorio(int pNumMinimo, int pNumMaximo)
-		{
-			return (int)( Math.random() * (pNumMaximo - pNumMinimo + 1) + pNumMinimo  );
-		}
-		
-		
-		private String[][] obtenerMatrizProcesos()
-		{
-			
-			String[][] matriz = new String[3][this.cantUltIngresada];
-			
-			TableModel modelo = this.tablaProcesos.getModel();
-			
-			for (int i = 0; i < 3; i++) 
-			{			
-				for (int j = 0; j < this.cantUltIngresada; j++) 
-				{
-					matriz[i][j] = (String) modelo.getValueAt(j, i);
-				}
-			}
-			
-			return matriz;
-		}
-		
-		private void mostrarMatrizAlgoritmo(String[][] pMatriz)
-		{
-			this.remove(this.scrollBarAlgoritmo);
-			
-			DefaultTableModel tablaModelo = new DefaultTableModel();
-			
-			String[] columnaActual = null;
-			
-			for (int i = 0; i < pMatriz[0].length; i++) 
+			columnaActual = new String[this.cantUltIngresada];
+
+
+			if( i == 0 )
 			{
-				columnaActual = new String[this.cantUltIngresada];
-				
-				
-				for (int j = 0; j < this.cantUltIngresada; j++) 
-				{
-					columnaActual[j] = pMatriz[j][i];
-				}
+				int contador = 1;
 
-				
-				tablaModelo.addColumn(String.valueOf(i), columnaActual);
+				for (int j = 0; j < columnaActual.length; j++, contador++) 
+					columnaActual[j] = "Proceso " + contador;
+
 			}
-			
-			JTable table = new JTable(tablaModelo);
-			table.setAutoResizeMode(JTable.AUTO_RESIZE_OFF);
-			table.getTableHeader().setReorderingAllowed(false) ;
-			
-			table.setRowHeight(40);
+			else if( i == 1 )
+			{
+				for (int j = 0; j < columnaActual.length; j++) 
+				{
+					columnaActual[j] = String.valueOf( this.generarNumeroAleatorio(rangoMinimo, rangoMaximo) );
+				}
+			}
+			else if( i == 2 )
+			{
+				for (int j = 0; j < columnaActual.length; j++) 
+				{
+					columnaActual[j] = String.valueOf( this.generarNumeroAleatorio(0, demoraMaxima) );
+				}
+			}
 
-//			DefaultTableCellRenderer defCellRender = new DefaultTableCellRenderer();
-//			
-//			table.getColumn( table.getColumnName(0) ).setMinWidth(81);	
-//			table.getColumn( table.getColumnName(0) ).setMaxWidth(81);
-//			defCellRender.setHorizontalAlignment( SwingConstants.CENTER );
-//			table.getColumn( table.getColumnName(0) ).setCellRenderer(defCellRender);
-//			
-//			table.getColumn( table.getColumnName(1) ).setMinWidth(70);	
-//			table.getColumn( table.getColumnName(1) ).setMaxWidth(70);
-//			defCellRender.setHorizontalAlignment( SwingConstants.CENTER );
-//			table.getColumn( table.getColumnName(1) ).setCellRenderer(defCellRender);
-//			
-//			table.getColumn( table.getColumnName(2) ).setMinWidth(110);	
-//			table.getColumn( table.getColumnName(2) ).setMaxWidth(110);
-//			defCellRender.setHorizontalAlignment( SwingConstants.CENTER );
-//			table.getColumn( table.getColumnName(2) ).setCellRenderer(defCellRender);
-			
-			
-			this.scrollBarAlgoritmo = new JScrollPane(table, JScrollPane.VERTICAL_SCROLLBAR_AS_NEEDED, JScrollPane.HORIZONTAL_SCROLLBAR_AS_NEEDED);
-			this.scrollBarAlgoritmo.setBounds(60, 350, 584, 270);
-			this.add(this.scrollBarAlgoritmo);
-			
+
+			String nombreColumna = "";
+
+			switch( i ) 
+			{
+			case 0:
+				nombreColumna = "Nombre";
+				break;
+			case 1:
+				nombreColumna = "Duración";
+				break;
+			case 2:
+				nombreColumna = "Tiempo llegada";
+				break;
+			}
+
+			tablaModelo.addColumn(nombreColumna, columnaActual);
 		}
-		
+
+		JTable table = new JTable(tablaModelo);
+		table.setAutoResizeMode(JTable.AUTO_RESIZE_OFF);
+		table.getTableHeader().setReorderingAllowed(false) ;
+
+		table.setRowHeight(40);
+
+		DefaultTableCellRenderer defCellRender = new DefaultTableCellRenderer();
+
+		table.getColumn( table.getColumnName(0) ).setMinWidth(81);	
+		table.getColumn( table.getColumnName(0) ).setMaxWidth(81);
+		defCellRender.setHorizontalAlignment( SwingConstants.CENTER );
+		table.getColumn( table.getColumnName(0) ).setCellRenderer(defCellRender);
+
+		table.getColumn( table.getColumnName(1) ).setMinWidth(70);	
+		table.getColumn( table.getColumnName(1) ).setMaxWidth(70);
+		defCellRender.setHorizontalAlignment( SwingConstants.CENTER );
+		table.getColumn( table.getColumnName(1) ).setCellRenderer(defCellRender);
+
+		table.getColumn( table.getColumnName(2) ).setMinWidth(110);	
+		table.getColumn( table.getColumnName(2) ).setMaxWidth(110);
+		defCellRender.setHorizontalAlignment( SwingConstants.CENTER );
+		table.getColumn( table.getColumnName(2) ).setCellRenderer(defCellRender);
+
+
+		this.tablaProcesos = table;
+		this.scrollBarProcesos = new JScrollPane(this.tablaProcesos, JScrollPane.VERTICAL_SCROLLBAR_AS_NEEDED, JScrollPane.HORIZONTAL_SCROLLBAR_AS_NEEDED);
+		this.scrollBarProcesos.setBounds(380, 60, 264, 240);
+		this.add(this.scrollBarProcesos);
+	}
+
+
+
+	private String pedirDatoRango(String pMensaje)
+	{
+		return JOptionPane.showInputDialog(this, pMensaje);
+	}
+
+
+	private int generarNumeroAleatorio(int pNumMinimo, int pNumMaximo)
+	{
+		return (int)( Math.random() * (pNumMaximo - pNumMinimo + 1) + pNumMinimo  );
+	}
+
+
+	private String[][] obtenerMatrizProcesos()
+	{
+
+		String[][] matriz = new String[3][this.cantUltIngresada];
+
+		TableModel modelo = this.tablaProcesos.getModel();
+
+		for (int i = 0; i < 3; i++) 
+		{			
+			for (int j = 0; j < this.cantUltIngresada; j++) 
+			{
+				matriz[i][j] = (String) modelo.getValueAt(j, i);
+			}
+		}
+
+		return matriz;
+	}
+
+	private void mostrarMatrizAlgoritmo(String[][] pMatriz)
+	{
+		this.remove(this.scrollBarAlgoritmo);
+
+		DefaultTableModel tablaModelo = new DefaultTableModel();
+
+		String[] columnaActual = null;
+
+		for (int i = 0; i < pMatriz[0].length; i++) 
+		{
+			columnaActual = new String[this.cantUltIngresada];
+
+
+			for (int j = 0; j < this.cantUltIngresada; j++) 
+			{
+				columnaActual[j] = pMatriz[j][i];
+			}
+
+
+			tablaModelo.addColumn(String.valueOf(i), columnaActual);
+		}
+
+		JTable table = new JTable(tablaModelo);
+		table.setAutoResizeMode(JTable.AUTO_RESIZE_OFF);
+		table.getTableHeader().setReorderingAllowed(false) ;
+
+		table.setRowHeight(40);
+
+		//			DefaultTableCellRenderer defCellRender = new DefaultTableCellRenderer();
+		//			
+		//			table.getColumn( table.getColumnName(0) ).setMinWidth(81);	
+		//			table.getColumn( table.getColumnName(0) ).setMaxWidth(81);
+		//			defCellRender.setHorizontalAlignment( SwingConstants.CENTER );
+		//			table.getColumn( table.getColumnName(0) ).setCellRenderer(defCellRender);
+		//			
+		//			table.getColumn( table.getColumnName(1) ).setMinWidth(70);	
+		//			table.getColumn( table.getColumnName(1) ).setMaxWidth(70);
+		//			defCellRender.setHorizontalAlignment( SwingConstants.CENTER );
+		//			table.getColumn( table.getColumnName(1) ).setCellRenderer(defCellRender);
+		//			
+		//			table.getColumn( table.getColumnName(2) ).setMinWidth(110);	
+		//			table.getColumn( table.getColumnName(2) ).setMaxWidth(110);
+		//			defCellRender.setHorizontalAlignment( SwingConstants.CENTER );
+		//			table.getColumn( table.getColumnName(2) ).setCellRenderer(defCellRender);
+
+
+		this.scrollBarAlgoritmo = new JScrollPane(table, JScrollPane.VERTICAL_SCROLLBAR_AS_NEEDED, JScrollPane.HORIZONTAL_SCROLLBAR_AS_NEEDED);
+		this.scrollBarAlgoritmo.setBounds(60, 350, 584, 270);
+		this.add(this.scrollBarAlgoritmo);
+
+	}
+
 }

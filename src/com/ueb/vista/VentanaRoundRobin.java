@@ -4,6 +4,7 @@ import java.awt.Font;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
+import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
@@ -65,6 +66,9 @@ public class VentanaRoundRobin extends JFrame implements ActionListener
 		private JScrollPane scrollBarAlgoritmo;
 		
 		
+		private JLabel lbFondo;		
+
+		
 		private RoundRobin algoritmo;
 		
 		
@@ -106,7 +110,8 @@ public class VentanaRoundRobin extends JFrame implements ActionListener
 			this.btnLimpiar = new JButton(BOTON_LIMPIAR);
 			this.btnCalcular = new JButton(BOTON_CALCULAR);
 			
-			this.btnVolver = new JButton(VentanaPrincipal.BOTON_VOLVER);
+			this.btnVolver = new JButton();
+			this.btnVolver.setIcon(new ImageIcon( "./source/botonVolver.png" ));
 			
 			
 			this.lbCantProcesos = new JLabel("Cantidad de procesos");
@@ -114,6 +119,9 @@ public class VentanaRoundRobin extends JFrame implements ActionListener
 			
 			this.lbQuantum = new JLabel("Quantum");
 			this.spinnerQuantum = new JSpinner( new SpinnerNumberModel(3, 1, 10, 1) );
+			
+			this.lbFondo = new JLabel();
+			this.lbFondo.setIcon(new ImageIcon( "./source/fondoGeneral.png" ));
 		}
 		
 		private void configurarBotones(VentanaPrincipal pVentanaP)
@@ -182,6 +190,9 @@ public class VentanaRoundRobin extends JFrame implements ActionListener
 			this.scrollBarAlgoritmo = new JScrollPane(this.tablaAlgoritmo, JScrollPane.VERTICAL_SCROLLBAR_AS_NEEDED, JScrollPane.HORIZONTAL_SCROLLBAR_AS_NEEDED);
 			this.scrollBarAlgoritmo.setBounds(60, 350, 584, 270);
 			this.add(this.scrollBarAlgoritmo);
+			
+			this.add(this.lbFondo);
+			this.lbFondo.setBounds(0, 0, 700, 700);
 		}
 		
 		
@@ -520,18 +531,22 @@ public class VentanaRoundRobin extends JFrame implements ActionListener
 			}
 			
 			JTable table = new JTable(tablaModelo);
-			table.setAutoResizeMode(JTable.AUTO_RESIZE_OFF);
+//			table.setAutoResizeMode(JTable.AUTO_RESIZE_OFF);
 			table.getTableHeader().setReorderingAllowed(false) ;
 			
-			table.setRowHeight(40);
+			table.setRowHeight(30);
 
-//			DefaultTableCellRenderer defCellRender = new DefaultTableCellRenderer();
-//			
-//			table.getColumn( table.getColumnName(0) ).setMinWidth(81);	
-//			table.getColumn( table.getColumnName(0) ).setMaxWidth(81);
-//			defCellRender.setHorizontalAlignment( SwingConstants.CENTER );
-//			table.getColumn( table.getColumnName(0) ).setCellRenderer(defCellRender);
-//			
+			DefaultTableCellRenderer defCellRender = new DefaultTableCellRenderer();
+			defCellRender.setHorizontalAlignment( SwingConstants.CENTER );
+
+			for (int i = 0; i < pMatriz[0].length; i++) 
+			{
+				table.getColumn( table.getColumnName(i) ).setMinWidth(62);	
+				table.getColumn( table.getColumnName(i) ).setMaxWidth(62);
+				table.getColumn( table.getColumnName(i) ).setCellRenderer(defCellRender);
+			}
+			
+			
 //			table.getColumn( table.getColumnName(1) ).setMinWidth(70);	
 //			table.getColumn( table.getColumnName(1) ).setMaxWidth(70);
 //			defCellRender.setHorizontalAlignment( SwingConstants.CENTER );

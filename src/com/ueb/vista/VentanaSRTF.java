@@ -4,6 +4,7 @@ import java.awt.Font;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
+import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
@@ -59,6 +60,7 @@ public class VentanaSRTF extends JFrame implements ActionListener
 		private JScrollPane scrollBarProcesos;
 		private JScrollPane scrollBarAlgoritmo;
 		
+		private JLabel lbFondo;		
 		
 		private Srtf algoritmo;
 		
@@ -100,11 +102,17 @@ public class VentanaSRTF extends JFrame implements ActionListener
 			this.btnLimpiar = new JButton(BOTON_LIMPIAR);
 			this.btnCalcular = new JButton(BOTON_CALCULAR);
 			
-			this.btnVolver = new JButton(VentanaPrincipal.BOTON_VOLVER);
+			this.btnVolver = new JButton();
+			this.btnVolver.setIcon(new ImageIcon( "./source/botonVolver.png" ));
 			
 			
 			this.lbCantProcesos = new JLabel("Cantidad de procesos");
 			this.spinnerProcesos = new JSpinner( new SpinnerNumberModel(2, 2, 100, 1) );
+			
+			
+			this.lbFondo = new JLabel();
+			this.lbFondo.setIcon(new ImageIcon( "./source/fondoGeneral.png" ));
+			
 		}
 		
 		private void configurarBotones(VentanaPrincipal pVentanaP)
@@ -165,6 +173,9 @@ public class VentanaSRTF extends JFrame implements ActionListener
 			this.scrollBarAlgoritmo = new JScrollPane(this.tablaAlgoritmo, JScrollPane.VERTICAL_SCROLLBAR_AS_NEEDED, JScrollPane.HORIZONTAL_SCROLLBAR_AS_NEEDED);
 			this.scrollBarAlgoritmo.setBounds(60, 350, 584, 270);
 			this.add(this.scrollBarAlgoritmo);
+		
+			this.add(this.lbFondo);
+			this.lbFondo.setBounds(0, 0, 700, 700);
 		}
 		
 		
