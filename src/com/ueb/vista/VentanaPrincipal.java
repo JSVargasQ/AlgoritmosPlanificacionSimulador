@@ -104,7 +104,7 @@ public class VentanaPrincipal extends JFrame implements ActionListener
 		this.ventanaFcfs = new VentanaFCFS(this);
 		this.ventanaRoundRobin = new VentanaRoundRobin(this);
 		this.ventanaSjf = new VentanaSJF(this);
-		this.ventanaSrtf = new VentanaSRTF();
+		this.ventanaSrtf = new VentanaSRTF(this);
 	}
 	
 	private void configurarComponentes()

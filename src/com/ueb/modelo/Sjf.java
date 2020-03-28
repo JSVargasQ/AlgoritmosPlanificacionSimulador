@@ -63,6 +63,9 @@ public class Sjf extends AlgoritmoPlanificacion
 					terminado = true;
 			}
 			
+			this.limpiarMatriz();
+
+			
 		}
 		
 		public int procesoAEjecutar()

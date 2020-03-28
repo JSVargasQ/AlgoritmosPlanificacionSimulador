@@ -119,6 +119,7 @@ public class RoundRobin extends AlgoritmoPlanificacion
 			while( procesosTerminados != procesosTotales );
 			
 			
+			this.limpiarMatriz();
 			
 		}
 		

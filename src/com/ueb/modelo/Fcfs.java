@@ -62,6 +62,9 @@ public class Fcfs extends AlgoritmoPlanificacion
 				terminado = true;
 		}
 		
+		
+		this.limpiarMatriz();
+		
 	}
 	
 	public int procesoAEjecutar()

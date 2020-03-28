@@ -33,6 +33,22 @@ public abstract class AlgoritmoPlanificacion
 	
 	public abstract void ejecutar();
 
+	
+	
+	public void limpiarMatriz()
+	{
+		String[][] matrizLimpia = new String[this.matrizProcesos.length][this.tiempoActual];
+		
+		for (int i = 0; i < matrizLimpia.length; i++) 
+		{
+			for (int j = 0; j < matrizLimpia[0].length; j++) 
+			{
+				matrizLimpia[i][j] = this.matrizProcesos[i][j];
+			}
+		}
+		
+		this.matrizProcesos = matrizLimpia;
+	}
 		
 
 	public int getTiempoTotal() 

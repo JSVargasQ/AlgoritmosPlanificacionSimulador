@@ -13,8 +13,6 @@ public class Proceso
 	
 	private int id;
 	
-	private int duracionRestante;
-	
 	
 	// ---------------------------------------------------------------------------------------------------
 	// CONSTRUCTOR
@@ -26,7 +24,6 @@ public class Proceso
 		this.duracionProceso = pDuracionProceso;
 		this.tiempoLlegada = pTiempoLlegada;
 
-		this.duracionRestante = pDuracionProceso;
 	}
 	
 	
@@ -69,19 +66,6 @@ public class Proceso
 	{
 		this.tiempoLlegada = tiempoLlegada;
 	}
-
-
-	public int getDuracionRestante() 
-	{
-		return duracionRestante;
-	}
-
-
-	public void setDuracionRestante(int duracionRestante)
-	{
-		this.duracionRestante = duracionRestante;
-	}
-
 
 	public int getId() 
 	{
