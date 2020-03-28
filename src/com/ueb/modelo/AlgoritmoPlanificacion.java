@@ -12,7 +12,6 @@ public abstract class AlgoritmoPlanificacion
 	
 	
 	protected ArrayList<Proceso> procesosEspera;
-	protected ArrayList<Proceso> procesosTerminados;
 	
 	protected String[][] matrizProcesos;
 	protected int procesosEjecutados;
@@ -26,7 +25,6 @@ public abstract class AlgoritmoPlanificacion
 		this.totalProcesos = new ArrayList<Proceso>();
 
 		this.procesosEspera = new ArrayList<Proceso>();
-		this.procesosTerminados = new ArrayList<Proceso>();
 		
 		this.totalProcesos = null;
 		this.procesosEjecutados = 0;
@@ -71,19 +69,6 @@ public abstract class AlgoritmoPlanificacion
 	{
 		this.procesosEspera = procesosEspera;
 	}
-
-
-	public ArrayList<Proceso> getProcesosTerminados()
-	{
-		return procesosTerminados;
-	}
-
-
-	public void setProcesosTerminados(ArrayList<Proceso> procesosTerminados)
-	{
-		this.procesosTerminados = procesosTerminados;
-	}
-
 
 	public int getTiempoActual() 
 	{

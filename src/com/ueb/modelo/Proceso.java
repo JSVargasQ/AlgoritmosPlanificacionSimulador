@@ -11,6 +11,8 @@ public class Proceso
 	private int duracionProceso;
 	private int tiempoLlegada;
 	
+	private int id;
+	
 	private int duracionRestante;
 	
 	
@@ -80,6 +82,19 @@ public class Proceso
 		this.duracionRestante = duracionRestante;
 	}
 
+
+	public int getId() 
+	{
+		return id;
+	}
+
+
+	public void setId(int id) 
+	{
+		this.id = id;
+	}
+
+	
 
 	
 	

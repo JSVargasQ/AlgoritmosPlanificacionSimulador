@@ -102,7 +102,7 @@ public class VentanaPrincipal extends JFrame implements ActionListener
 		this.lbSrtf = new JLabel("SRTF");
 	
 		this.ventanaFcfs = new VentanaFCFS(this);
-		this.ventanaRoundRobin = new VentanaRoundRobin();
+		this.ventanaRoundRobin = new VentanaRoundRobin(this);
 		this.ventanaSjf = new VentanaSJF(this);
 		this.ventanaSrtf = new VentanaSRTF();
 	}
