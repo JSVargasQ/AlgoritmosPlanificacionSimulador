@@ -161,18 +161,21 @@ public class VentanaPrincipal extends JFrame implements ActionListener
 	private void mostrarRoundRobin()
 	{
 		this.setVisible(false);
+		this.ventanaRoundRobin = new VentanaRoundRobin(this);
 		this.ventanaRoundRobin.setVisible(true);
 	}
 	
 	private void mostrarSjf()
 	{
 		this.setVisible(false);
+		this.ventanaSjf = new VentanaSJF(this);
 		this.ventanaSjf.setVisible(true);
 	}
 	
 	private void mostrarSrtf()
 	{
 		this.setVisible(false);
+		this.ventanaSrtf = new VentanaSRTF(this);
 		this.ventanaSrtf.setVisible(true);
 	}
 	
