@@ -81,6 +81,7 @@ public class VentanaPrincipal extends JFrame implements ActionListener
 		this.setResizable(false);
 		this.setTitle(TITULO);
 		
+		this.setIconImage(new ImageIcon("./source/icono.png").getImage());
 
 	}
 	

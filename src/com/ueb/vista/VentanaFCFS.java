@@ -99,6 +99,9 @@ public class VentanaFCFS extends JFrame implements ActionListener
 		this.setVisible(true);
 		this.setResizable(false);
 		this.setTitle(TITULO);
+		
+		this.setIconImage(new ImageIcon("./source/icono.png").getImage());
+
 	}
 
 	private void inicializarComponentes()
@@ -398,16 +401,31 @@ public class VentanaFCFS extends JFrame implements ActionListener
 
 		try
 		{
-			int rangoMinimo = Integer.parseInt( this.pedirDatoRango("Ingresar el valor mínimo de tiempo de duración de los procesos").trim() );
-			int rangoMaximo = Integer.parseInt( this.pedirDatoRango("Ingrese el valor máximo de tiempo de duración de los procesos").trim() );
+			int rangoMinimo = Integer.parseInt( this.pedirDatoRango("Ingresar el valor mínimo de tiempo de duración de los procesos\nDebe estar en el rango de 1 - 100").trim() );
+			
+			if( rangoMinimo <= 0 )
+				throw new Exception("El 'valor mínimo' debe ser mayor o igual a uno (1).");
+			else if( rangoMinimo > 100 )
+				throw new Exception("El 'valor mínimo' debe ser menor o igual a cien (100).");
+			
+			
+			int rangoMaximo = Integer.parseInt( this.pedirDatoRango("Ingrese el valor máximo de tiempo de duración de los procesos\nDebe estar en el rango de 1 - 100").trim() );
 
 			if(rangoMinimo > rangoMaximo )
-			{
-				throw new Exception("El 'rango mayor' es menor que el 'rango menor'.\nVerifique los valores.");
-			}
+				throw new Exception("El 'valor maximo' es menor que el 'valor mínimo'.\nVerifique los valores.");
+			else if( rangoMinimo <= 0 )
+				throw new Exception("El 'valor máximo' debe ser mayor o igual a uno (1).");
+			else if( rangoMinimo > 100 )
+				throw new Exception("El 'valor máximo' debe ser menor o igual a cien (100).");
 			
-			int demoraMaxima = Integer.parseInt( this.pedirDatoRango("Ingrese el valor máximo de tiempo de llegada de los procesos").trim() );
-
+			int demoraMaxima = Integer.parseInt( this.pedirDatoRango("Ingrese el valor máximo de tiempo de llegada de los procesos\nDebe estar en el rango de 0 - 100").trim() );
+			
+			if( demoraMaxima < 0 )
+				throw new Exception("El 'valor máximo de tiempo de llegada' debe ser mayor o igual a uno (1).");
+			else if( demoraMaxima > 100 )
+				throw new Exception("El 'valor máximo de tiempo de llegada' debe ser menor o igual a cien (100).");
+			
+			
 			this.remove(this.scrollBarProcesos);
 
 			DefaultTableModel tablaModelo = new DefaultTableModel();
@@ -597,4 +615,6 @@ public class VentanaFCFS extends JFrame implements ActionListener
 
 	}
 
+
+	
 }
