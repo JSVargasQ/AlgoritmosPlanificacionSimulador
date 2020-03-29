@@ -128,6 +128,10 @@ public class VentanaSRTF extends JFrame implements ActionListener
 			this.btnCalcular.addActionListener(this);
 		
 			this.btnVolver.addActionListener(pVentanaP);
+			
+			this.btnAleatorio.setEnabled(false);
+			this.btnLimpiar.setEnabled(false);
+			this.btnCalcular.setEnabled(false);
 		}
 		
 		private void agregarComponentes()
@@ -205,16 +209,27 @@ public class VentanaSRTF extends JFrame implements ActionListener
 		
 		private void ejecutarAlgoritmo()
 		{
-			this.algoritmo = new Srtf();
-			
-			String[][] matrizInterfaz = this.obtenerMatrizProcesos();
-			this.algoritmo.cargarProcesos( matrizInterfaz , this.cantUltIngresada);
-			
-			this.algoritmo.ejecutar();
-			
-			String[][] matrizResultado = this.algoritmo.getMatrizProcesos();
-			this.mostrarMatrizAlgoritmo(matrizResultado);
-			
+			try
+			{
+				this.algoritmo = new Srtf();
+
+				String[][] matrizInterfaz = this.obtenerMatrizProcesos();
+				this.algoritmo.cargarProcesos( matrizInterfaz , this.cantUltIngresada);
+
+				this.algoritmo.ejecutar();
+
+				String[][] matrizResultado = this.algoritmo.getMatrizProcesos();
+				this.mostrarMatrizAlgoritmo(matrizResultado);
+			}
+			catch(Exception e)
+			{
+				
+				if(e.getMessage().equals("For input string: \"\"") )
+					this.darMensajeError("Rellene toda la matriz");
+				else
+					this.darMensajeError("Se ingresarón valores erroneos en la matriz");
+
+			}
 		}
 		
 		
@@ -229,6 +244,10 @@ public class VentanaSRTF extends JFrame implements ActionListener
 			this.scrollBarProcesos = new JScrollPane(this.tablaProcesos, JScrollPane.VERTICAL_SCROLLBAR_AS_NEEDED, JScrollPane.HORIZONTAL_SCROLLBAR_AS_NEEDED);
 			this.scrollBarProcesos.setBounds(380, 60, 264, 240);
 			this.add(this.scrollBarProcesos);
+			
+			this.btnAleatorio.setEnabled(true);
+			this.btnLimpiar.setEnabled(true);
+			this.btnCalcular.setEnabled(true);
 		}
 		
 		
@@ -471,6 +490,10 @@ public class VentanaSRTF extends JFrame implements ActionListener
 				{
 					this.darMensajeError( "El valor ingresado es invalido." );
 				}
+			}
+			catch(NullPointerException e)
+			{
+				
 			}
 			catch(Exception e)
 			{
